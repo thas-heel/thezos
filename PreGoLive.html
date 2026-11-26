@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10100f">
+  <meta name="description" content="THE ZOS — Intelligent Systems, Custom AI Agents & Autonomous Workflow Architecture.">
+
+  <!-- Inline SVG Favicon matching The ZOS brand mark -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2310100f'/%3E%3Cpath d='M12 16h34l-6 9H18z' fill='%239da4ae'/%3E%3Cpath d='M46 16L12 48h10l34-32z' fill='%23087dff'/%3E%3Cpath d='M24 39h28l-6 9H18z' fill='%236c737d'/%3E%3C/svg%3E">
+
+  <title>The ZOS — Intelligent Systems &amp; AI Automation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #10100f;
+      --bg-elevated: #161614;
+      --fg: #f2efe8;
+      --muted: #a6a39b;
+      --subtle: #77746d;
+      --accent: #d4c4a0;
+      --accent-bright: #e6d8b8;
+      --blue: #087dff;
+      --blue-glow: rgba(8, 125, 255, 0.22);
+      --line: rgba(212, 196, 160, 0.16);
+      --line-strong: rgba(212, 196, 160, 0.38);
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle tactile grain overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.09;
+      z-index: 50;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* Scroll Progress Bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--accent));
+      z-index: 60;
+      transition: width 0.08s linear;
+    }
+
+    .wrap {
+      padding: 0 5.2vw 28px;
+      position: relative;
+    }
+
+    /* Sticky Glass Navigation */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 16px 0;
+      background: linear-gradient(180deg, rgba(16, 16, 15, 0.94), rgba(16, 16, 15, 0.78));
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(212, 196, 160, 0.07);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      flex: 0 0 auto;
+      line-height: 0;
+      border-radius: var(--radius-sm);
+    }
+
+    .brand:focus-visible {
+      outline: 1px solid var(--accent);
+      outline-offset: 6px;
+    }
+
+    .brand-svg {
+      display: block;
+      width: 156px;
+      height: auto;
+      filter: drop-shadow(0 0 14px rgba(8, 125, 255, 0.14));
+      transition: transform 0.3s ease;
+    }
+
+    .brand:hover .brand-svg {
+      transform: scale(1.02);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav a {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.25s ease;
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav a:not(.nav-cta)::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--accent);
+    }
+
+    .nav a:not(.nav-cta):hover::after,
+    .nav a:not(.nav-cta).active::after {
+      width: 100%;
+    }
+
+    .nav .nav-cta {
+      color: var(--fg);
+      border: 1px solid var(--line);
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.02);
+      transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+    }
+
+    .nav .nav-cta:hover {
+      border-color: var(--accent);
+      background: rgba(212, 196, 160, 0.08);
+      color: var(--accent);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--fg);
+      padding: 10px 14px;
+      font: 500 11px 'DM Sans', sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    /* Hero Section & Dynamic Orbital Canvas */
+    .hero {
+      min-height: calc(100svh - 86px);
+      display: grid;
+      place-items: center;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 40px 0 80px;
+    }
+
+    #neuralCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    .orb-wrap {
+      position: absolute;
+      width: min(68vw, 760px);
+      aspect-ratio: 1;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      inset: 9%;
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse at 38% 29%,
+        rgba(211, 194, 157, 0.22),
+        rgba(8, 125, 255, 0.1) 30%,
+        rgba(32, 31, 27, 0.18) 52%,
+        transparent 72%
+      );
+      filter: blur(4px);
+      animation: breath 8s ease-in-out infinite alternate;
+    }
+
+    .ring {
+      position: absolute;
+      inset: 15%;
+      border: 1px solid rgba(212, 196, 160, 0.18);
+      border-radius: 50%;
+      transform: rotate(-28deg) scaleY(0.42);
+      animation: turn 32s linear infinite;
+    }
+
+    .ring.two {
+      inset: 5%;
+      transform: rotate(42deg) scaleY(0.52);
+      border-color: rgba(8, 125, 255, 0.22);
+      animation-duration: 45s;
+      animation-direction: reverse;
+    }
+
+    .ring.three {
+      inset: 25%;
+      border-color: rgba(212, 196, 160, 0.13);
+      transform: rotate(70deg) scaleY(0.65);
+      animation-duration: 24s;
+    }
+
+    .spark {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 20px 5px rgba(212, 196, 160, 0.35);
+      top: 24%;
+      left: 24%;
+    }
+
+    .spark.blue {
+      background: var(--blue);
+      box-shadow: 0 0 22px 6px rgba(8, 125, 255, 0.45);
+      top: 72%;
+      left: 76%;
+    }
+
+    .cursor-glow {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(8, 125, 255, 0.11), transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .hero:hover .cursor-glow {
+      opacity: 1;
+    }
+
+    .hero-content {
+      width: min(960px, 100%);
+      text-align: center;
+      padding: 40px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow-pill .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 12px var(--blue);
+      animation: pulse 2.2s infinite;
+    }
+
+    .hero h1,
+    .section-title {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.055em;
+      line-height: 1.02;
+      margin: 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(46px, 8.2vw, 112px);
+    }
+
+    .hero h1 em,
+    .section-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero h1 .blue-accent {
+      background: linear-gradient(120deg, #4da3ff, var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sub {
+      margin: 28px auto 0;
+      max-width: 540px;
+      color: #b9b5ac;
+      font-size: clamp(14.5px, 1.5vw, 16.5px);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .actions {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--accent);
+      color: #141310;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 16px 26px;
+      border-radius: var(--radius-sm);
+      transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: var(--accent-bright);
+      box-shadow: 0 10px 28px rgba(212, 196, 160, 0.18);
+    }
+
+    .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--fg);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 10.5px;
+      padding: 15px 4px;
+      border-bottom: 1px solid rgba(212, 196, 160, 0.5);
+      transition: gap 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .link:hover {
+      gap: 18px;
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .scroll-cue::before {
+      content: "";
+      height: 28px;
+      width: 1px;
+      background: linear-gradient(var(--accent), transparent);
+    }
+
+    /* Capability Ticker Strip */
+    .ticker-strip {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+      overflow: hidden;
+      position: relative;
+      background: rgba(255, 255, 255, 0.01);
+      mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      gap: 44px;
+      animation: marquee 34s linear infinite;
+    }
+
+    .ticker-strip:hover .ticker-track {
+      animation-play-state: paused;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .ticker-item span {
+      color: var(--blue);
+      font-size: 8px;
+    }
+
+    /* Shared Section Layout */
+    .section {
+      padding: clamp(85px, 11vw, 150px) 0;
+      border-top: 1px solid rgba(212, 196, 160, 0.1);
+      position: relative;
+    }
+
+    .section-inner {
+      width: min(1160px, 100%);
+      margin: auto;
+    }
+
+    .section-kicker {
+      color: var(--accent);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      margin: 0 0 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--blue);
+    }
+
+    .section-title {
+      font-size: clamp(36px, 5.8vw, 74px);
+      max-width: 820px;
+    }
+
+    /* About / Manifesto Section */
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 6vw;
+      align-items: end;
+    }
+
+    .manifesto-copy {
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.85;
+      font-weight: 300;
+      margin: 0;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 64px;
+    }
+
+    .metric-card {
+      padding: 30px 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.006));
+      transition: border-color 0.35s ease, transform 0.35s ease;
+    }
+
+    .metric-card:hover {
+      border-color: var(--line-strong);
+      transform: translateY(-4px);
+    }
+
+    .metric-value {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      color: var(--fg);
+      margin: 0;
+    }
+
+    .metric-value span {
+      color: var(--accent);
+    }
+
+    .metric-label {
+      margin: 10px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Services Grid (6 Core AI Capabilities) */
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      padding: 9px 16px;
+      font: 400 10.5px 'DM Sans', sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--fg);
+      background: rgba(212, 196, 160, 0.1);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 52px;
+    }
+
+    .service-card {
+      padding: 32px 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.008));
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+      transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(8, 125, 255, 0.12),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--line-strong);
+      background: linear-gradient(155deg, rgba(212, 196, 160, 0.065), rgba(255, 255, 255, 0.01));
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-card.hidden-card {
+      display: none;
+    }
+
+    .service-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 34px;
+    }
+
+    .service-num {
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+    }
+
+    .service-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(8, 125, 255, 0.28);
+      background: rgba(8, 125, 255, 0.08);
+      display: grid;
+      place-items: center;
+      color: #56a8ff;
+    }
+
+    .service-card h3 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 400;
+      font-size: clamp(21px, 2.1vw, 26px);
+      letter-spacing: -0.03em;
+      margin: 0 0 12px;
+      color: var(--fg);
+    }
+
+    .service-card p {
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.72;
+      margin: 0 0 22px;
+      font-weight: 300;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .service-tag {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(212, 196, 160, 0.06);
+      border: 1px solid rgba(212, 196, 160, 0.14);
+      padding: 5px 10px;
+      border-radius: 999px;
+    }
+
+    /* Interactive 6-Step Architecture Process */
+    .process-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 5vw;
+      margin-top: 56px;
+      align-items: start;
+    }
+
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .process-step-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      color: var(--fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all 0.25s ease;
+    }
+
+    .process-step-btn:hover {
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .process-step-btn.active {
+      border-color: var(--accent);
+      background: linear-gradient(90deg, rgba(212, 196, 160, 0.1), rgba(8, 125, 255, 0.05));
+    }
+
+    .step-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .step-badge {
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .step-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+    }
+
+    .step-arrow {
+      color: var(--accent);
+      opacity: 0.4;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .process-step-btn.active .step-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    .process-detail-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: clamp(28px, 4vw, 46px);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(8, 125, 255, 0.03));
+      position: sticky;
+      top: 110px;
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .detail-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #56a8ff;
+      margin-bottom: 18px;
+    }
+
+    .detail-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      margin: 0 0 18px;
+    }
+
+    .detail-desc {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.85;
+      font-weight: 300;
+      margin: 0 0 28px;
+    }
+
+    .detail-deliverables {
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .deliverable-pill {
+      font-size: 11px;
+      color: var(--fg);
+      background: rgba(16, 16, 15, 0.7);
+      border: 1px solid var(--line);
+      padding: 7px 13px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Mid-Page Conversion Banner */
+    .cta-banner {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: clamp(38px, 6vw, 72px);
+      background:
+        radial-gradient(circle at 88% 22%, rgba(8, 125, 255, 0.16), transparent 45%),
+        radial-gradient(circle at 12% 85%, rgba(212, 196, 160, 0.1), transparent 45%),
+        rgba(255, 255, 255, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 300;
+      font-size: clamp(30px, 4.4vw, 54px);
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      margin: 0 0 14px;
+      max-width: 640px;
+    }
+
+    .cta-banner h2 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .cta-banner p {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+      max-width: 520px;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      background: radial-gradient(ellipse at 85% 30%, rgba(8, 125, 255, 0.08), transparent 42%);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 7vw;
+      align-items: start;
+    }
+
+    .contact-intro {
+      color: var(--muted);
+      line-height: 1.85;
+      font-weight: 300;
+      max-width: 390px;
+      margin: 22px 0 30px;
+    }
+
+    .direct-channels {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .channel-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.02);
+      text-decoration: none;
+      transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+    }
+
+    .channel-card:hover {
+      border-color: var(--accent);
+      background: rgba(212, 196, 160, 0.05);
+      transform: translateX(4px);
+    }
+
+    .channel-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .channel-label {
+      font-size: 9.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--subtle);
+    }
+
+    .channel-value {
+      font-size: 14px;
+      color: var(--accent);
+    }
+
+    .copy-pill {
+      margin-top: 12px;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      padding: 8px 14px;
+      font: 400 10px 'DM Sans', sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .copy-pill:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: clamp(24px, 3.5vw, 38px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(212, 196, 160, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 14px 14px;
+      color: var(--fg);
+      font: 300 14px 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--accent);
+      background: rgba(212, 196, 160, 0.04);
+    }
+
+    .field textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .field select option {
+      background: #141413;
+      color: var(--fg);
+    }
+
+    .submit-row {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      background: var(--accent);
+      color: #151411;
+      border: 0;
+      border-radius: var(--radius-sm);
+      padding: 16px 24px;
+      font: 600 10.5px 'DM Sans', sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      background: var(--accent-bright);
+    }
+
+    .form-note {
+      color: var(--subtle);
+      font-size: 11.5px;
+      line-height: 1.6;
+      max-width: 270px;
+    }
+
+    .form-status {
+      grid-column: 1 / -1;
+      display: none;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(212, 196, 160, 0.35);
+      background: rgba(212, 196, 160, 0.08);
+      color: var(--accent);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .form-status.visible {
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid rgba(212, 196, 160, 0.12);
+      padding: 28px 0 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      color: var(--subtle);
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer a {
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer a:hover {
+      color: var(--accent);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(212, 196, 160, 0.7);
+    }
+
+    /* Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Floating WhatsApp Button */
+    .whatsapp-float {
+      position: fixed;
+      right: 26px;
+      bottom: 26px;
+      z-index: 45;
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #25D366;
+      color: #fff;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.36), 0 0 0 1px rgba(255, 255, 255, 0.14);
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: translateY(-4px) scale(1.04);
+      background: #20bd5a;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.42), 0 0 0 5px rgba(37, 211, 102, 0.14);
+    }
+
+    .whatsapp-float:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 4px;
+    }
+
+    .whatsapp-float svg {
+      display: block;
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+    }
+
+    .whatsapp-float::before {
+      content: 'Chat on WhatsApp';
+      position: absolute;
+      right: 68px;
+      white-space: nowrap;
+      padding: 10px 13px;
+      border-radius: var(--radius-sm);
+      background: #1c1c19;
+      border: 1px solid var(--line);
+      color: var(--fg);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateX(6px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .whatsapp-float:hover::before,
+    .whatsapp-float:focus-visible::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Keyframes */
+    @keyframes breath {
+      from { transform: scale(0.94); opacity: 0.72; }
+      to { transform: scale(1.08); opacity: 1; }
+    }
+
+    @keyframes turn {
+      to { rotate: 360deg; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.8); }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 960px) {
+      .manifesto-grid,
+      .process-layout,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process-detail-panel {
+        position: static;
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .wrap {
+        padding: 0 22px 24px;
+      }
+
+      .brand-svg {
+        width: 132px;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav {
+        display: none;
+        position: absolute;
+        top: 72px;
+        right: 0;
+        left: 0;
+        padding: 20px;
+        border-radius: var(--radius-md);
+        background: rgba(16, 16, 15, 0.98);
+        border: 1px solid var(--line);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+
+      .nav.open {
+        display: flex;
+      }
+
+      .nav a {
+        padding: 10px 8px;
+      }
+
+      .hero {
+        min-height: calc(92svh - 75px);
+        padding: 24px 0 68px;
+      }
+
+      .orb-wrap {
+        width: 115vw;
+      }
+
+      .hero h1 {
+        font-size: clamp(42px, 12vw, 76px);
+      }
+
+      .metrics-row,
+      .services-grid,
+      .contact-form {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full,
+      .submit-row,
+      .form-status {
+        grid-column: auto;
+      }
+
+      .whatsapp-float {
+        width: 52px;
+        height: 52px;
+        right: 18px;
+        bottom: 18px;
+      }
+
+      .whatsapp-float svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .whatsapp-float::before {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+  <!-- Top scroll progress indicator -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <div class="wrap">
+    <!-- Sticky Header with Inline SVG Logo matching The ZOS metallic & blue brand mark -->
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="THE ZOS home">
+        <svg class="brand-svg" viewBox="0 0 360 155" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="THE ZOS Logo">
+          <defs>
+            <linearGradient id="metalTop" x1="12" y1="52" x2="122" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#c6ccd4"/>
+              <stop offset="45%" stop-color="#6b727d"/>
+              <stop offset="100%" stop-color="#b4bcc6"/>
+            </linearGradient>
+            <linearGradient id="zosBlue" x1="14" y1="142" x2="128" y2="54" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#0455c4"/>
+              <stop offset="52%" stop-color="#087dff"/>
+              <stop offset="100%" stop-color="#2bb8ff"/>
+            </linearGradient>
+            <linearGradient id="metalBottom" x1="34" y1="122" x2="136" y2="142" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2a2e33"/>
+              <stop offset="45%" stop-color="#7c848f"/>
+              <stop offset="100%" stop-color="#c4cbd4"/>
+            </linearGradient>
+            <linearGradient id="ringO" x1="132" y1="52" x2="232" y2="142" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b8c0ca"/>
+              <stop offset="35%" stop-color="#5d646e"/>
+              <stop offset="70%" stop-color="#aeb6c0"/>
+              <stop offset="100%" stop-color="#4e555f"/>
+            </linearGradient>
+            <linearGradient id="letterS" x1="238" y1="52" x2="346" y2="142" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#68707a"/>
+              <stop offset="40%" stop-color="#c4cbd4"/>
+              <stop offset="75%" stop-color="#565d67"/>
+              <stop offset="100%" stop-color="#aeb6c0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- "THE" wordmark -->
+          <text x="12" y="39" fill="#d4c4a0" font-family="Manrope, sans-serif" font-weight="600" font-size="25" letter-spacing="13">THE</text>
+
+          <!-- Z: Top metallic wedge -->
+          <polygon points="12,52 122,52 104,72 28,72" fill="url(#metalTop)"/>
+          <!-- Z: Diagonal electric blue slash -->
+          <polygon points="126,52 134,52 134,70 22,142 12,142 12,123" fill="url(#zosBlue)"/>
+          <!-- Z: Bottom metallic wedge -->
+          <polygon points="56,122 122,122 136,142 24,142" fill="url(#metalBottom)"/>
+
+          <!-- O: Sculpted metallic ring -->
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M185 50C215.5 50 238 70.5 238 97C238 123.5 215.5 144 185 144C154.5 144 132 123.5 132 97C132 70.5 154.5 50 185 50ZM185 69C166.5 69 153 81 153 97C153 113 166.5 125 185 125C203.5 125 217 113 217 97C217 81 203.5 69 185 69Z"
+            fill="url(#ringO)"/>
+
+          <!-- S: Sleek geometric metallic S -->
+          <path
+            d="M342 52H276C254 52 242 63.5 242 79.5C242 96 254.5 105.5 278 106.5L308 107.8C320.5 108.3 326 111.5 326 116.5C326 121.5 320 124.5 307 124.5H245L232 142H309C333.5 142 347 130.5 347 114C347 97.5 334.5 88.5 310 87.5L280 86.2C268 85.7 263 82.8 263 78C263 73.2 268.5 70 280 70H342V52Z"
+            fill="url(#letterS)"/>
+        </svg>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+
+      <nav class="nav" id="primaryNav" aria-label="Primary Navigation">
+        <a href="#about">Who We Are</a>
+        <a href="#services">Capabilities</a>
+        <a href="#process">Architecture</a>
+        <a href="#contact" class="nav-cta">Initiate Project</a>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="heroSection">
+      <canvas id="neuralCanvas" aria-hidden="true"></canvas>
+
+      <div class="orb-wrap" aria-hidden="true">
+        <div class="orb"></div>
+        <div class="ring"></div>
+        <div class="ring two"></div>
+        <div class="ring three"></div>
+        <div class="spark"></div>
+        <div class="spark blue"></div>
+      </div>
+
+      <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+      <div class="hero-content">
+        <div class="eyebrow-pill">
+          <span class="pulse-dot"></span>
+          <span>Next-Generation AI &amp; Autonomous Systems</span>
+        </div>
+
+        <h1>
+          Engineering the <em>intelligence</em> behind <span class="blue-accent">modern</span> enterprise.
+        </h1>
+
+        <p class="sub">
+          THE ZOS designs bespoke AI agents, autonomous workflows, and predictive data architectures that eliminate operational friction and scale human capability.
+        </p>
+
+        <div class="actions">
+          <a href="#contact" class="btn-primary">
+            <span>Book Discovery Call</span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="#services" class="link">
+            <span>Explore Capabilities</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true">Scroll to Explore</div>
+    </section>
+
+    <!-- Dynamic Capability Ticker -->
+    <div class="ticker-strip" aria-hidden="true">
+      <div class="ticker-track">
+        <div class="ticker-item"><span>◆</span> Custom Autonomous Agents</div>
+        <div class="ticker-item"><span>◆</span> Enterprise Workflow Orchestration</div>
+        <div class="ticker-item"><span>◆</span> RAG &amp; Private Knowledge Engines</div>
+        <div class="ticker-item"><span>◆</span> Conversational Voice &amp; Chat AI</div>
+        <div class="ticker-item"><span>◆</span> Predictive Operations Intelligence</div>
+        <div class="ticker-item"><span>◆</span> End-to-End API &amp; ERP Integration</div>
+        <!-- Duplicate set for seamless loop -->
+        <div class="ticker-item"><span>◆</span> Custom Autonomous Agents</div>
+        <div class="ticker-item"><span>◆</span> Enterprise Workflow Orchestration</div>
+        <div class="ticker-item"><span>◆</span> RAG &amp; Private Knowledge Engines</div>
+        <div class="ticker-item"><span>◆</span> Conversational Voice &amp; Chat AI</div>
+        <div class="ticker-item"><span>◆</span> Predictive Operations Intelligence</div>
+        <div class="ticker-item"><span>◆</span> End-to-End API &amp; ERP Integration</div>
+      </div>
+    </div>
+
+    <!-- Section 01: Who We Are / Manifesto -->
+    <section class="section" id="about">
+      <div class="section-inner">
+        <p class="section-kicker reveal">01 / Who We Are</p>
+
+        <div class="manifesto-grid reveal">
+          <h2 class="section-title">
+            Precision systems built for <em>decisive</em> velocity.
+          </h2>
+          <p class="manifesto-copy">
+            Most organizations drown in repetitive coordination and fragmented software. At THE ZOS, we architect production-grade AI infrastructure—turning static data and manual bottlenecks into self-operating digital ecosystems tailored to your exact business logic.
+          </p>
+        </div>
+
+        <div class="metrics-row reveal">
+          <div class="metric-card">
+            <p class="metric-value" data-target="78" data-suffix="%">0<span>%</span></p>
+            <p class="metric-label">Average reduction in manual operational overhead within 90 days of deployment.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-value" data-target="24" data-suffix="/7">0<span>/7</span></p>
+            <p class="metric-label">Continuous autonomous execution across customer, sales, and internal pipelines.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-value" data-target="10" data-suffix="x">0<span>x</span></p>
+            <p class="metric-label">Faster cross-platform synthesis compared to legacy rule-based automation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 02: Core Capabilities (6 Services with Interactive Category Filter) -->
+    <section class="section" id="services">
+      <div class="section-inner">
+        <p class="section-kicker reveal">02 / Core Capabilities</p>
+
+        <div class="services-header reveal">
+          <h2 class="section-title">
+            Intelligent architecture, <em>end to end</em>.
+          </h2>
+
+          <div class="filter-tabs" role="tablist" aria-label="Filter capabilities">
+            <button class="filter-btn active" data-filter="all">All Systems</button>
+            <button class="filter-btn" data-filter="agents">AI Agents</button>
+            <button class="filter-btn" data-filter="automation">Automation</button>
+            <button class="filter-btn" data-filter="data">Data &amp; Strategy</button>
+          </div>
+        </div>
+
+        <div class="services-grid" id="servicesGrid">
+          <!-- Service 01 -->
+          <article class="service-card reveal" data-category="agents">
+            <div>
+              <div class="service-top">
+                <span class="service-num">01</span>
+                <div class="service-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <rect x="3" y="4" width="18" height="14" rx="3"/>
+                    <path d="M8 21h8M12 18v3M8 10h.01M16 10h.01M9.5 14c1.5 1 3.5 1 5 0"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Custom AI Agents</h3>
+              <p>Multi-step reasoning agents trained on your SOPs to execute research, qualification, scheduling, and back-office operations autonomously.</p>
+            </div>
+            <div class="service-tags">
+              <span class="service-tag">Multi-Agent</span>
+              <span class="service-tag">Tool Use</span>
+              <span class="service-tag">Guardrails</span>
+            </div>
+          </article>
+
+          <!-- Service 02 -->
+          <article class="service-card reveal" data-category="automation">
+            <div>
+              <div class="service-top">
+                <span class="service-num">02</span>
+                <div class="service-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <circle cx="6" cy="6" r="3"/>
+                    <circle cx="18" cy="18" r="3"/>
+                    <circle cx="18" cy="6" r="3"/>
+                    <path d="M8.5 7.5l7 9M15 6H9"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Autonomous Workflows</h3>
+              <p>Connect CRMs, ERPs, databases, and communication suites into resilient event-driven pipelines that eliminate human copy-paste latency.</p>
+            </div>
+            <div class="service-tags">
+              <span class="service-tag">Orchestration</span>
+              <span class="service-tag">API Mesh</span>
+              <span class="service-tag">Zero-Touch</span>
+            </div>
+          </article>
+
+          <!-- Service 03 -->
+          <article class="service-card reveal" data-category="agents">
+            <div>
+              <div class="service-top">
+                <span class="service-num">03</span>
+                <div class="service-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+                    <path d="M8 10h8M8 14h5"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Conversational &amp; Voice AI</h3>
+              <p>Natural-sounding omnichannel assistants across WhatsApp, web, and voice lines that resolve inquiries, book meetings, and sync CRM records live.</p>
+            </div>
+            <div class="service-tags">
+              <span class="service-tag">WhatsApp AI</span>
+              <span class="service-tag">Voice Synthesis</span>
+              <span class="service-tag">24/7 Concierge</span>
+            </div>
+          </article>
+
+          <!-- Service 04 -->
+          <article class="service-card reveal" data-category="data">
+            <div>
+              <div class="service-top">
+                <span class="service-num">04</span>
+                <div class="service-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <ellipse cx="12" cy="5" rx="8" ry="3"/>
+                    <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
+                    <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Private Knowledge &amp; RAG</h3>
+              <p>Transform thousands of internal documents, contracts, and manuals into a secure, citation-backed enterprise intelligence layer.</p>
+            </div>
+            <div class="service-tags">
+              <span class="service-tag">Vector Search</span>
+              <span class="service-tag">Zero Data Leak</span>
+              <span class="service-tag">Instant Recall</span>
+            </div>
+          </article>
+
+          <!-- Service 05 -->
+          <article class="service-card reveal" data-category="automation">
+            <div>
+              <div class="service-top">
+                <span class="service-num">05</span>
+                <div class="service-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>Bespoke AI Web &amp; SaaS</h3>
+              <p>Full-stack intelligent web applications, client portals, and internal command dashboards engineered with sub-second responsiveness.</p>
+            </div>
+            <div class="service-tags">
+              <span class="service-tag">Full-Stack</span>
+              <span class="service-tag">Dashboards</span>
+              <span class="service-tag">Cloud Native</span>
+            </div>
+          </article>
+
+          <!-- Service 06 -->
+          <article class="service-card reveal" data-category="data">
+            <div>
+              <div class="service-top">
+                <span class="service-num">06</span>
+                <div class="service-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+              </div>
+              <h3>AI Strategy &amp; Audits</h3>
+              <p>Comprehensive operational diagnostics to pinpoint high-ROI automation opportunities, calculate payback timelines, and build a phased roadmap.</p>
+            </div>
+            <div class="service-tags">
+              <span class="service-tag">ROI Blueprint</span>
+              <span class="service-tag">Security Audit</span>
+              <span class="service-tag">Advisory</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: Interactive 6-Step Delivery Architecture -->
+    <section class="section" id="process">
+      <div class="section-inner">
+        <p class="section-kicker reveal">03 / Delivery Architecture</p>
+        <h2 class="section-title reveal">
+          From operational audit to <em>autonomous</em> scale.
+        </h2>
+
+        <div class="process-layout reveal">
+          <div class="process-steps" id="processSteps" role="tablist" aria-label="Project delivery phases">
+            <button class="process-step-btn active" data-step="0" role="tab" aria-selected="true">
+              <span class="step-left">
+                <span class="step-badge">PHASE 01</span>
+                <span class="step-name">Discovery &amp; Bottleneck Audit</span>
+              </span>
+              <span class="step-arrow" aria-hidden="true">→</span>
+            </button>
+
+            <button class="process-step-btn" data-step="1" role="tab" aria-selected="false">
+              <span class="step-left">
+                <span class="step-badge">PHASE 02</span>
+                <span class="step-name">System Blueprint &amp; ROI Model</span>
+              </span>
+              <span class="step-arrow" aria-hidden="true">→</span>
+            </button>
+
+            <button class="process-step-btn" data-step="2" role="tab" aria-selected="false">
+              <span class="step-left">
+                <span class="step-badge">PHASE 03</span>
+                <span class="step-name">Core Agent &amp; Pipeline Build</span>
+              </span>
+              <span class="step-arrow" aria-hidden="true">→</span>
+            </button>
+
+            <button class="process-step-btn" data-step="3" role="tab" aria-selected="false">
+              <span class="step-left">
+                <span class="step-badge">PHASE 04</span>
+                <span class="step-name">Deep Stack Integration</span>
+              </span>
+              <span class="step-arrow" aria-hidden="true">→</span>
+            </button>
+
+            <button class="process-step-btn" data-step="4" role="tab" aria-selected="false">
+              <span class="step-left">
+                <span class="step-badge">PHASE 05</span>
+                <span class="step-name">Adversarial Testing &amp; Guardrails</span>
+              </span>
+              <span class="step-arrow" aria-hidden="true">→</span>
+            </button>
+
+            <button class="process-step-btn" data-step="5" role="tab" aria-selected="false">
+              <span class="step-left">
+                <span class="step-badge">PHASE 06</span>
+                <span class="step-name">Deployment &amp; Continuous Telemetry</span>
+              </span>
+              <span class="step-arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          <div class="process-detail-panel" id="processDetail" aria-live="polite">
+            <div>
+              <div class="detail-phase" id="detailPhase">PHASE 01 — WEEK 1</div>
+              <h3 class="detail-title" id="detailTitle">Discovery &amp; Bottleneck Audit</h3>
+              <p class="detail-desc" id="detailDesc">
+                We shadow your key workflows, map data touchpoints across departments, and isolate high-friction tasks where intelligent automation yields immediate time and margin recovery.
+              </p>
+            </div>
+            <div class="detail-deliverables" id="detailDeliverables">
+              <span class="deliverable-pill">Workflow Topology Map</span>
+              <span class="deliverable-pill">Data Readiness Score</span>
+              <span class="deliverable-pill">Priority Matrix</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mid-Page CTA Banner -->
+    <section class="section">
+      <div class="section-inner">
+        <div class="cta-banner reveal">
+          <div>
+            <h2>Ready to reshape how your <em>company</em> operates?</h2>
+            <p>Schedule a focused architectural session with our engineering team to map your highest-leverage AI deployment.</p>
+          </div>
+          <a href="#contact" class="btn-primary">
+            <span>Start Conversation</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 04: Contact & Project Inquiry -->
+    <section class="section contact-section" id="contact">
+      <div class="section-inner">
+        <p class="section-kicker reveal">04 / Initiate Contact</p>
+
+        <div class="contact-grid">
+          <div class="reveal">
+            <h2 class="section-title">
+              Let’s build your <em>intelligent</em> edge.
+            </h2>
+            <p class="contact-intro">
+              Share your operational challenge, desired timeline, or system goals. Our architects respond within one business day with actionable next steps.
+            </p>
+
+            <div class="direct-channels">
+              <a class="channel-card" href="mailto:info@thezosglobal.com">
+                <div class="channel-meta">
+                  <span class="channel-label">Direct Electronic Mail</span>
+                  <span class="channel-value">info@thezosglobal.com</span>
+                </div>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <a class="channel-card" href="https://wa.me/96894989567?text=Hello%20THE%20ZOS%2C%20I%20would%20like%20to%20discuss%20an%20AI%20project." target="_blank" rel="noopener noreferrer">
+                <div class="channel-meta">
+                  <span class="channel-label">WhatsApp Direct Line</span>
+                  <span class="channel-value">+968 94989567</span>
+                </div>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <button type="button" class="copy-pill" id="copyEmailBtn">Copy Email Address</button>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" id="contactForm" novalidate>
+            <div class="field">
+              <label for="fullName">Your Name *</label>
+              <input type="text" id="fullName" name="fullName" placeholder="Alex Mercer" required>
+            </div>
+
+            <div class="field">
+              <label for="workEmail">Work Email *</label>
+              <input type="email" id="workEmail" name="workEmail" placeholder="alex@company.com" required>
+            </div>
+
+            <div class="field">
+              <label for="companyName">Company / Organization</label>
+              <input type="text" id="companyName" name="companyName" placeholder="Acme Holdings">
+            </div>
+
+            <div class="field">
+              <label for="serviceInterest">Primary Focus</label>
+              <select id="serviceInterest" name="serviceInterest">
+                <option value="Custom AI Agents">Custom AI Agents</option>
+                <option value="Autonomous Workflow Automation">Autonomous Workflow Automation</option>
+                <option value="Conversational & Voice AI">Conversational &amp; Voice AI</option>
+                <option value="Private Knowledge & RAG System">Private Knowledge &amp; RAG System</option>
+                <option value="Bespoke AI Web / SaaS Platform">Bespoke AI Web / SaaS Platform</option>
+                <option value="AI Strategy & Operational Audit">AI Strategy &amp; Operational Audit</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="projectBrief">Project Scope &amp; Objectives *</label>
+              <textarea id="projectBrief" name="projectBrief" placeholder="Tell us about the workflows, customer touchpoints, or systems you want to automate..." required></textarea>
+            </div>
+
+            <div class="submit-row">
+              <button type="submit" class="submit-btn">
+                <span>Transmit Brief</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <span class="form-note">Protected by strict mutual confidentiality. Direct dispatch to info@thezosglobal.com.</span>
+            </div>
+
+            <div class="form-status" id="formStatus" role="status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="status">
+        <span class="dot"></span>
+        <span>THE ZOS GLOBAL — ALL SYSTEMS OPERATIONAL</span>
+      </div>
+
+      <div class="footer-links">
+        <a href="#about">Who We Are</a>
+        <a href="#services">Capabilities</a>
+        <a href="#process">Architecture</a>
+        <a href="mailto:info@thezosglobal.com">info@thezosglobal.com</a>
+      </div>
+
+      <div>© <span id="yearSpan">2026</span> THE ZOS. ALL RIGHTS RESERVED.</div>
+    </footer>
+  </div>
+
+  <!-- Floating WhatsApp Contact Button (+968 94989567) -->
+  <a
+    class="whatsapp-float"
+    href="https://wa.me/96894989567?text=Hello%20THE%20ZOS%2C%20I%20would%20like%20to%20inquire%20about%20your%20AI%20solutions."
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat with THE ZOS on WhatsApp"
+  >
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16.04 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.59 4.46 1.71 6.4L3.13 29l6.78-1.78a12.75 12.75 0 0 0 6.13 1.56h.01c7.06 0 12.8-5.74 12.8-12.8 0-3.42-1.33-6.64-3.75-9.05A12.72 12.72 0 0 0 16.04 3.2zm0 23.42h-.01a10.6 10.6 0 0 1-5.4-1.48l-.39-.23-4.02 1.05 1.07-3.92-.25-.4a10.58 10.58 0 0 1-1.63-5.64c0-5.86 4.77-10.63 10.64-10.63 2.84 0 5.51 1.11 7.52 3.12a10.56 10.56 0 0 1 3.11 7.52c0 5.86-4.77 10.61-10.64 10.61zm5.84-7.96c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.5-.16-.72.16-.21.32-.82 1.04-1.01 1.25-.19.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.19.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.72-1.73-.98-2.37-.26-.62-.52-.54-.72-.55h-.61c-.21 0-.56.08-.85.4-.29.32-1.12 1.09-1.12 2.66s1.15 3.09 1.31 3.3c.16.21 2.26 3.45 5.47 4.84.76.33 1.36.53 1.82.67.77.24 1.46.21 2.01.13.61-.09 1.89-.77 2.16-1.52.27-.75.27-1.39.19-1.52-.08-.13-.29-.21-.61-.37z"/>
+    </svg>
+  </a>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Dynamic Current Year
+      const yearSpan = document.getElementById('yearSpan');
+      if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+      // 2. Mobile Navigation Drawer
+      const menuToggle = document.getElementById('menuToggle');
+      const primaryNav = document.getElementById('primaryNav');
+      if (menuToggle && primaryNav) {
+        menuToggle.addEventListener('click', () => {
+          const isOpen = primaryNav.classList.toggle('open');
+          menuToggle.setAttribute('aria-expanded', String(isOpen));
+          menuToggle.textContent = isOpen ? 'Close' : 'Menu';
+        });
+
+        primaryNav.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            primaryNav.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.textContent = 'Menu';
+          });
+        });
+      }
+
+      // 3. Scroll Progress Bar & Active Nav Link Spy
+      const scrollProgress = document.getElementById('scrollProgress');
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollProgress && docHeight > 0) {
+          scrollProgress.style.width = `${Math.min(100, (scrollTop / docHeight) * 100)}%`;
+        }
+
+        let currentId = '';
+        sections.forEach(sec => {
+          if (scrollTop >= sec.offsetTop - 180) {
+            currentId = sec.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
+        });
+      }, { passive: true });
+
+      // 4. Hero Interactive Cursor Glow
+      const heroSection = document.getElementById('heroSection');
+      const cursorGlow = document.getElementById('cursorGlow');
+      if (heroSection && cursorGlow) {
+        heroSection.addEventListener('mousemove', (e) => {
+          const rect = heroSection.getBoundingClientRect();
+          cursorGlow.style.left = `${e.clientX - rect.left}px`;
+          cursorGlow.style.top = `${e.clientY - rect.top}px`;
+        });
+      }
+
+      // 5. Ambient Neural Mesh Canvas in Hero
+      const canvas = document.getElementById('neuralCanvas');
+      if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const ctx = canvas.getContext('2d');
+        let width = 0;
+        let height = 0;
+        let nodes = [];
+
+        function resizeCanvas() {
+          const rect = canvas.parentElement.getBoundingClientRect();
+          width = canvas.width = rect.width;
+          height = canvas.height = rect.height;
+          const count = Math.min(48, Math.max(20, Math.floor(width / 28)));
+          nodes = Array.from({ length: count }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            isBlue: Math.random() > 0.68
+          }));
+        }
+
+        function drawNeuralMesh() {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = 0; i < nodes.length; i++) {
+            const a = nodes[i];
+            a.x += a.vx;
+            a.y += a.vy;
+            if (a.x < 0 || a.x > width) a.vx *= -1;
+            if (a.y < 0 || a.y > height) a.vy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(a.x, a.y, 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = a.isBlue ? 'rgba(8, 125, 255, 0.55)' : 'rgba(212, 196, 160, 0.45)';
+            ctx.fill();
+
+            for (let j = i + 1; j < nodes.length; j++) {
+              const b = nodes[j];
+              const dx = a.x - b.x;
+              const dy = a.y - b.y;
+              const dist = Math.hypot(dx, dy);
+              if (dist < 145) {
+                const alpha = (1 - dist / 145) * 0.14;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.strokeStyle = a.isBlue || b.isBlue
+                  ? `rgba(8, 125, 255, ${alpha})`
+                  : `rgba(212, 196, 160, ${alpha})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+              }
+            }
+          }
+          requestAnimationFrame(drawNeuralMesh);
+        }
+
+        resizeCanvas();
+        drawNeuralMesh();
+        window.addEventListener('resize', resizeCanvas);
+      }
+
+      // 6. Scroll Reveal & Animated Metric Counters
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+
+            // Animate counters inside visible metric blocks
+            entry.target.querySelectorAll('.metric-value[data-target]').forEach(el => {
+              if (el.dataset.animated) return;
+              el.dataset.animated = 'true';
+              const target = parseInt(el.dataset.target, 10);
+              const suffix = el.dataset.suffix || '';
+              const duration = 1400;
+              const start = performance.now();
+
+              function tick(now) {
+                const progress = Math.min(1, (now - start) / duration);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(eased * target);
+                el.innerHTML = `${current}<span>${suffix}</span>`;
+                if (progress < 1) requestAnimationFrame(tick);
+              }
+              requestAnimationFrame(tick);
+            });
+          }
+        });
+      }, { threshold: 0.14 });
+
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      // 7. Interactive Service Filter & Radial Card Hover Spotlight
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const serviceCards = document.querySelectorAll('.service-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const filter = btn.dataset.filter;
+
+          serviceCards.forEach(card => {
+            const matches = filter === 'all' || card.dataset.category === filter;
+            card.classList.toggle('hidden-card', !matches);
+          });
+        });
+      });
+
+      serviceCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+      });
+
+      // 8. Interactive 6-Phase Process Switcher
+      const processData = [
+        {
+          phase: 'PHASE 01 — WEEK 1',
+          title: 'Discovery & Bottleneck Audit',
+          desc: 'We shadow your key workflows, map data touchpoints across departments, and isolate high-friction tasks where intelligent automation yields immediate time and margin recovery.',
+          deliverables: ['Workflow Topology Map', 'Data Readiness Score', 'Priority Matrix']
+        },
+        {
+          phase: 'PHASE 02 — WEEK 2',
+          title: 'System Blueprint & ROI Model',
+          desc: 'Before writing production code, we design the exact agent hierarchy, API orchestration flow, security boundaries, and projected cost-to-value savings.',
+          deliverables: ['Technical Architecture Spec', 'Security & Privacy Protocol', 'ROI Forecast']
+        },
+        {
+          phase: 'PHASE 03 — WEEKS 3–4',
+          title: 'Core Agent & Pipeline Build',
+          desc: 'Our engineers construct custom LLM agents, vector knowledge bases, and deterministic automation pipelines tuned specifically to your domain terminology.',
+          deliverables: ['Custom Prompt & Tool Engine', 'Private RAG Index', 'Staging Sandbox']
+        },
+        {
+          phase: 'PHASE 04 — WEEK 5',
+          title: 'Deep Stack Integration',
+          desc: 'We connect your new intelligence layer directly into your existing CRM, ERP, WhatsApp Business API, databases, and internal communication tools with zero downtime.',
+          deliverables: ['Two-Way CRM/ERP Sync', 'Webhook & Event Bus', 'Role-Based Access']
+        },
+        {
+          phase: 'PHASE 05 — WEEK 6',
+          title: 'Adversarial Testing & Guardrails',
+          desc: 'Every agent undergoes rigorous edge-case stress testing, hallucination suppression, and human-in-the-loop escalation rules to ensure enterprise reliability.',
+          deliverables: ['Red-Team Evaluation Log', 'Fallback & Escalation Rules', 'Team Training']
+        },
+        {
+          phase: 'PHASE 06 — ONGOING',
+          title: 'Deployment & Continuous Telemetry',
+          desc: 'We launch into live production with real-time observability dashboards, latency monitoring, and iterative model refinement as your operational volume scales.',
+          deliverables: ['Live Command Dashboard', '24/7 Uptime Monitoring', 'Monthly Optimization']
+        }
+      ];
+
+      const stepBtns = document.querySelectorAll('.process-step-btn');
+      const detailPhase = document.getElementById('detailPhase');
+      const detailTitle = document.getElementById('detailTitle');
+      const detailDesc = document.getElementById('detailDesc');
+      const detailDeliverables = document.getElementById('detailDeliverables');
+
+      stepBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.step, 10);
+          const item = processData[idx];
+          if (!item) return;
+
+          stepBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          detailPhase.textContent = item.phase;
+          detailTitle.textContent = item.title;
+          detailDesc.textContent = item.desc;
+          detailDeliverables.innerHTML = item.deliverables
+            .map(d => `<span class="deliverable-pill">${d}</span>`)
+            .join('');
+        });
+      });
+
+      // 9. Copy Email Helper (using execCommand fallback for iframe compatibility)
+      const copyEmailBtn = document.getElementById('copyEmailBtn');
+      if (copyEmailBtn) {
+        copyEmailBtn.addEventListener('click', () => {
+          const tempInput = document.createElement('input');
+          tempInput.value = 'info@thezosglobal.com';
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          try {
+            document.execCommand('copy');
+            copyEmailBtn.textContent = 'Copied: info@thezosglobal.com';
+            setTimeout(() => {
+              copyEmailBtn.textContent = 'Copy Email Address';
+            }, 2600);
+          } catch (err) {
+            copyEmailBtn.textContent = 'info@thezosglobal.com';
+          }
+          document.body.removeChild(tempInput);
+        });
+      }
+
+      // 10. Interactive Contact Form Submission (Mailto Dispatch + Confirmation State)
+      const contactForm = document.getElementById('contactForm');
+      const formStatus = document.getElementById('formStatus');
+
+      if (contactForm && formStatus) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('fullName').value.trim();
+          const email = document.getElementById('workEmail').value.trim();
+          const company = document.getElementById('companyName').value.trim();
+          const focus = document.getElementById('serviceInterest').value;
+          const brief = document.getElementById('projectBrief').value.trim();
+
+          if (!name || !email || !brief) {
+            formStatus.textContent = 'Please complete your name, work email, and project scope before transmitting.';
+            formStatus.classList.add('visible');
+            return;
+          }
+
+          const subject = encodeURIComponent(`[THE ZOS Inquiry] ${focus} — ${company || name}`);
+          const body = encodeURIComponent(
+            `Name: ${name}\n` +
+            `Email: ${email}\n` +
+            `Company: ${company || 'N/A'}\n` +
+            `Primary Focus: ${focus}\n\n` +
+            `Project Brief:\n${brief}`
+          );
+
+          formStatus.innerHTML = `Thank you, <strong>${name}</strong>. Your project brief has been prepared for <strong>info@thezosglobal.com</strong>. Opening your mail client now—or <a href="https://wa.me/96894989567?text=${encodeURIComponent(`Hi THE ZOS, I'm ${name} (${company || 'Individual'}). Interested in ${focus}: ${brief}`)}" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">send directly via WhatsApp</a>.`;
+          formStatus.classList.add('visible');
+
+          window.location.href = `mailto:info@thezosglobal.com?subject=${subject}&body=${body}`;
+        });
+      }
+    });
+  </script>
+</body>
+</html>
